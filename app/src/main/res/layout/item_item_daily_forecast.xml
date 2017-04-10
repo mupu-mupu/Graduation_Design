@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                xmlns:tools="http://schemas.android.com/tools"
+    >
+
+    <RelativeLayout
+        android:layout_width="80dp"
+        android:layout_height="match_parent">
+
+
+    <ImageView
+        android:id="@+id/iv_item_weather"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:srcCompat="@drawable/weather_rain"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        />
+
+    <TextView
+        android:id="@+id/tv_item_tem"
+        tools:text="26°/16°"
+        android:textColor="@color/color_white"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="12sp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/iv_item_weather"
+        android:layout_marginTop="10dp"
+        />
+
+
+
+    <TextView
+        android:id="@+id/tv_item_week"
+        tools:text="Sun"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/color_white"
+        android:textSize="13sp"
+        android:layout_below="@+id/tv_item_tem"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginTop="10dp" />
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_height="70dp"
+            android:layout_width="1px"
+            android:background="#92969C"
+            android:layout_centerInParent="true"
+            android:layout_alignParentRight="true"
+
+            >
+        </View>
+
+    </RelativeLayout>
+
+</RelativeLayout>

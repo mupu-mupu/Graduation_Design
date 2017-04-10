@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/relative_layout"
+    android:fitsSystemWindows="true"
+    android:layout_width="match_parent"
+    android:layout_height="?attr/actionBarSize"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+
+    <ImageButton
+        android:id="@+id/ib_bar_setting"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="16dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_main_setting"
+        android:background="#00000000"
+        />
+
+    <TextView
+        android:id="@+id/tv_bar_district"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="12dp"
+        android:text="榕城区"
+        android:textColor="@color/color_bar_district"
+        android:textSize="13sp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"/>
+
+    <TextView
+        android:id="@+id/tv_bar_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/tv_bar_district"
+        android:text="1小时前已更新"
+        android:textColor="@color/color_bar_time"
+        android:textSize="10sp"
+        />
+
+    <ImageView
+        android:id="@+id/im_gps"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:src="@drawable/ic_bar_gps"
+        android:layout_toLeftOf="@+id/tv_bar_district"
+        android:layout_alignTop="@+id/tv_bar_district"
+        android:layout_marginRight="5dp"
+        android:visibility="gone"
+        />
+
+
+    <ImageButton
+        android:id="@+id/ib_bar_menu"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="16dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:scaleType="centerInside"
+        android:src="@drawable/ic_main_menu"
+        android:background="#00000000"
+        />
+
+
+
+
+</RelativeLayout>

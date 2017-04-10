@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="150dp"
+        android:padding="20dp"
+        >
+
+        <com.android.graduation.view.WindmillView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="150dp"
+        android:padding="10dp"
+        >
+
+
+        <View
+            android:id="@+id/view_line"
+            android:layout_height="1px"
+            android:layout_width="fill_parent"
+            android:background="@color/color_white"
+            android:layout_centerInParent="true"
+            >
+        </View>
+
+        <TextView
+            android:text="风向"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView"
+            android:layout_above="@+id/view_line"
+            android:layout_alignParentStart="true"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:text="无持续风向"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_wind_dir"
+            android:layout_alignBottom="@+id/textView"
+            android:layout_alignParentEnd="true"/>
+
+        <TextView
+            android:text="风力"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:id="@+id/textView3"
+            android:layout_below="@+id/view_line"
+            android:layout_alignParentStart="true"/>
+
+        <TextView
+            android:text="微风"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tv_wind_sc"
+            android:layout_alignBottom="@+id/textView3"
+            android:layout_alignParentEnd="true"/>
+    </RelativeLayout>
+</LinearLayout>
