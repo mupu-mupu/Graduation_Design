@@ -1,6 +1,7 @@
 package com.android.graduation;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.graduation.activity.EditActivity;
+import com.android.graduation.activity.SettingActivity;
 import com.android.graduation.adapter.ViewPaperAdapter;
+import com.android.graduation.app.BaseApplication;
 import com.android.graduation.app.MyConstant;
 import com.android.graduation.fragment.CityFragment;
 import com.android.graduation.network.GPSLocation;
@@ -59,9 +63,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ButterKnife.bind(this);
 
         initView();
-       // initGPSLocation();
+        initGPSLocation();
         checkCityList();
-        initViewPager();
+//        initViewPager();
+
     }
 
     private void initView() {
@@ -107,13 +112,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void checkCityList() {
         //获取SharedPreference对象
-        Context context = MainActivity.this;
-        SharedPreferences sp = context.getSharedPreferences(MyConstant.CITI_TABLE, MODE_PRIVATE);
+//        Context context = MainActivity.this;
+//        SharedPreferences sp = context.getSharedPreferences(MyConstant.CITI_TABLE, MODE_PRIVATE);
+        SharedPreferences sp = BaseApplication.getSP();
         mCityCount = sp.getInt(MyConstant.CITY_COUNT, -1);
 
         if (mCityCount == -1) {
             //通过Amap定位通过检索得到城市编号
            // mCityID[0] = getCityByAmap();
+            mGPSLocation.startLocation();
             mCityID[0] = mGPSLocation.getCityID();
             if (mCityID[0] == 0)
                 return;
@@ -122,12 +129,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             editor.putInt(MyConstant.CITY_COUNT, mCityCount);
             for (int i = 0; i < mCityCount; i ++){
                 editor.putInt(MyConstant.CITY_IDs[i],mCityID[i]);
+                editor.putString(MyConstant.CITY_Names[i],mGPSLocation.getDistricName());
             }
             editor.apply();
         } else {
             for (int i = 0; i < mCityCount; i++) {
                 mCityID[i] = sp.getInt(MyConstant.CITY_IDs[i], -1);
             }
+            initViewPager();
         }
 
     }
@@ -138,10 +147,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.ib_bar_setting:
-                Toast.makeText(this,"setting",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+                startActivity(intent);
                 break;
             case R.id.ib_bar_menu:
-                Toast.makeText(this,"menu",Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(MainActivity.this, EditActivity.class);
+                intent1.putExtra("cityCount", mCityCount);
+                startActivity(intent1);
                 break;
         }
     }

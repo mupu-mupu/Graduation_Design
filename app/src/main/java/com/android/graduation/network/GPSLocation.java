@@ -33,6 +33,8 @@ public class GPSLocation implements AMapLocationListener,PlaceNumQuerier.OnCityN
 
     private PlaceNumQuerier mCityNumQuerier;
 
+    private String mDistricName;
+
     public GPSLocation(Context context) {
         mContext = context;
 
@@ -68,6 +70,10 @@ public class GPSLocation implements AMapLocationListener,PlaceNumQuerier.OnCityN
         mLocationOption.setInterval(2000);
         //给定位客户端对象设置定位参数
         mLocationClient.setLocationOption(mLocationOption);
+
+    }
+
+    public void startLocation(){
         //启动定位
         mLocationClient.startLocation();
     }
@@ -82,8 +88,7 @@ public class GPSLocation implements AMapLocationListener,PlaceNumQuerier.OnCityN
                 Date date = new Date(aMapLocation.getTime());
                 df.format(date);//定位时间
                 date.getTime();
-                aMapLocation.getDistrict();//街区信息
-                String code = aMapLocation.getCityCode();
+                mDistricName = aMapLocation.getDistrict();//街区信息
 
                 queryCityNum(aMapLocation);
             } else {
@@ -103,7 +108,13 @@ public class GPSLocation implements AMapLocationListener,PlaceNumQuerier.OnCityN
 
 
     public int getCityID(){
+        if (mCityNum == null)
+            return 0;
         return Integer.decode(mCityNum);
+    }
+
+    public String getDistricName(){
+        return mDistricName;
     }
 
     public void onDestroyGPS(){

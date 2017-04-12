@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+    >
+
+
+    <TextView
+        android:id="@+id/tv_common_title"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:textSize="17sp"
+        />
+
+    <View
+        android:id="@+id/view_horizon"
+        android:layout_below="@+id/tv_common_title"
+        android:layout_height="1px"
+        android:layout_width="fill_parent"
+        android:background="#92969C"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        >
+    </View>
+
+    <ListView
+        android:id="@+id/lv_activity_common"
+        android:listSelector="@drawable/listview_selector"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:layout_below="@+id/view_horizon"
+        android:layout_above="@+id/layout_activity_common"
+        android:divider="#92969C"
+        android:dividerHeight="1px"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+
+        />
+
+
+    <RelativeLayout
+        android:id="@+id/layout_activity_common"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingBottom="20dp"
+        android:paddingTop="20dp"
+        android:visibility="gone"
+        >
+
+        <ImageView
+            android:id="@+id/iv_activity_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_menu_add"
+            android:paddingLeft="40dp"
+            />
+
+        <TextView
+            android:text="添加城市"
+            android:textColor="@color/color_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_activity_add"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="58dp"
+
+            />
+
+
+        <ImageView
+            android:id="@+id/iv_activity_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/ic_menu_edit"
+            android:layout_alignParentRight="true"
+            android:paddingRight="40dp"
+          />
+
+
+        <TextView
+            android:text="桌面天气"
+            android:textColor="@color/color_white"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_activity_edit"
+            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            android:paddingRight="58dp"
+            />
+
+    </RelativeLayout>
+</RelativeLayout>

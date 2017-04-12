@@ -30,4 +30,12 @@ public class MyConstant {
      */
     public static String[] CITY_IDs  = {"CITY_ID_0", "CITY_ID_1", "CITY_ID_2", "CITY_ID_3", "CITY_ID_4"};
 
+    public static String[] CITY_Names  = {"CITY_Name_0", "CITY_Name_1", "CITY_Name_2", "CITY_Name_3", "CITY_Name_4"};
+
+    /*
+     *  设置界面
+     */
+    public static String ISTurnOnSound = "Sound";
+    public static String ISAutoUpdate = "Update";
+    public static String UpdateTime = "UpdateTime";
 }

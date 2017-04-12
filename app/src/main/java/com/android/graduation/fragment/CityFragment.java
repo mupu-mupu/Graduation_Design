@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.android.graduation.R;
-import com.android.graduation.adapter.WeatherRVAdapter;
+import com.android.graduation.adapter.FragmentRVAdapter;
 import com.android.graduation.api.WeatherAPI;
 import com.android.graduation.app.MyConstant;
 import com.android.graduation.model.weather_data.WeatherDataAnaly;
@@ -36,7 +36,7 @@ public class CityFragment extends Fragment{
 
     private int mCityID;
 
-    private WeatherRVAdapter mAdapter;
+    private FragmentRVAdapter mAdapter;
     private WeatherDataAnaly mWeatherDataAnaly;
     private List mData;
 
@@ -93,7 +93,7 @@ public class CityFragment extends Fragment{
         mWeatherDataAnaly = new WeatherDataAnaly();
         mData = new ArrayList<>();
         //RecyclerView 初始化
-        mAdapter = new WeatherRVAdapter(mData);
+        mAdapter = new FragmentRVAdapter(mData);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);

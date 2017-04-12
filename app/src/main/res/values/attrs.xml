@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="MiClockView">
+        <attr name="backgroundColor" format="color" />
+        <attr name="lightColor" format="color" />
+        <attr name="darkColor" format="color" />
+        <attr name="textSize" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="SimpleToggle">
+        <attr name="activeColor" format="color"/>
+        <attr name="backgroundRate" format="float"/>
+        <attr name="toggleState" format="enum">
+            <enum name="close" value="0"/>
+            <enum name="open" value="1"/>
+        </attr>
+    </declare-styleable>
+
+
+</resources>

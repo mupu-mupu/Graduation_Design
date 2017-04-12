@@ -28,7 +28,7 @@ import java.util.List;
  * Created by asus on 2017/3/28.
  */
 
-public class WeatherRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
+public class FragmentRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private static final int TYPE_TODAY_TEMP = 0;
     private static final int TYPE_FORECAST_TEMP = 2;
@@ -41,7 +41,7 @@ public class WeatherRVAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
 
     private List mData = new ArrayList();
 
-    public WeatherRVAdapter(List data) {
+    public FragmentRVAdapter(List data) {
         mData = data;
     }
 

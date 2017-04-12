@@ -36,6 +36,10 @@
 
         //Amap service
         <service android:name="com.amap.api.location.APSService"/>
+
+        <activity android:name=".activity.SettingActivity"/>
+
+        <activity android:name=".activity.EditActivity"/>
     </application>
 
 </manifest>
