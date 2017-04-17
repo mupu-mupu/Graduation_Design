@@ -180,9 +180,9 @@ public class AstroView extends View {
         Calendar calendar = Calendar.getInstance();
         float minutes = calendar.get(Calendar.MINUTE);
         float hour  = calendar.get(Calendar.HOUR_OF_DAY) + minutes / 60;
-        if (hour >= 16) hour = 16;
+        if (hour >= 18) hour = 18;
         if (hour <= 6) hour = 6;
-        angle = ((hour - 6) / 11) * 180f;
+        angle = ((hour - 6) / 12) * 180f;
     }
 
     public void setViewProperty(String sr,String ss){

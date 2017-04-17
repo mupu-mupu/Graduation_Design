@@ -17,11 +17,7 @@ public class MyConstant {
      */
     public static String CITY_COUNT  = "City_Count";
     /**
-     *   SharePreference  城市序号
-     */
-    public static String CITY_NUM    = "City_Num";
-    /**
-     *      SharePreference  城市ID
+     *      Args  城市ID
      */
     public static String CITY_ID     = "City_ID";
     /**
@@ -38,4 +34,8 @@ public class MyConstant {
     public static String ISTurnOnSound = "Sound";
     public static String ISAutoUpdate = "Update";
     public static String UpdateTime = "UpdateTime";
+    public static String Location = "location";
+
+    //桌面天气信息
+    public static String Weather_Code = "Code";
 }

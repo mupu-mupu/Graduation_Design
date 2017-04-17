@@ -63,7 +63,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ButterKnife.bind(this);
 
         initView();
-        initGPSLocation();
         checkCityList();
 //        initViewPager();
 
@@ -161,13 +160,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mGPSLocation.onDestroyGPS();
+        if (mGPSLocation != null){
+            mGPSLocation.onDestroyGPS();
+        }
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        mGPSLocation.onStopGPS();
+        if (mGPSLocation != null){
+            mGPSLocation.onStopGPS();
+        }
     }
 
 }

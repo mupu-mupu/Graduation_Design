@@ -1,8 +1,11 @@
 package com.android.graduation.model.weather_data;
 
+import android.content.SharedPreferences;
 import android.util.Log;
 
 
+import com.android.graduation.app.BaseApplication;
+import com.android.graduation.app.MyConstant;
 import com.android.graduation.model.weather_info.AqiInfo;
 import com.android.graduation.model.weather_info.WeatherInfo;
 import com.android.graduation.model.weather_info.WeatherResult;
@@ -28,8 +31,14 @@ public class WeatherDataAnaly {
 
     private WeatherInfo mResult;
 
+    private SharedPreferences.Editor editor;
+    private int code;
 
     public WeatherDataAnaly(){
+        SharedPreferences sp = BaseApplication.getSP();
+        //code = sp.getInt(MyConstant.Weather_Code,-1);
+        editor = sp.edit();
+
         mTadayTemData = new TodayTemData();
         mDailyForecastData = new DailyForecastData();
         mAqiData = new AqiData();
@@ -74,6 +83,9 @@ public class WeatherDataAnaly {
         mTadayTemData.setTempRange(temRange);
 
         mTadayTemData.setIcCode(String.valueOf(mResult.getForecastResult().get(0).getCond().getCodeD()));
+
+        editor.putInt(MyConstant.Weather_Code,mResult.getForecastResult().get(0).getCond().getCodeD());
+        editor.apply();
     }
 
     public void setDailyForecastData() {

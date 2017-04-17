@@ -17,6 +17,7 @@ import android.view.View;
 
 import com.android.graduation.R;
 import com.android.graduation.utils.LogUtil;
+import com.android.graduation.utils.Util;
 
 
 public class ScaleView extends View{
@@ -189,7 +190,7 @@ public class ScaleView extends View{
 
     private void drawIcon(Canvas canvas) {
 
-        BitmapDrawable weather = (BitmapDrawable) getResources().getDrawable(R.drawable.weather_rain);
+        BitmapDrawable weather = (BitmapDrawable) getResources().getDrawable(Util.getWeatherType(Integer.valueOf(mDesc)));
         float width = weather.getBitmap().getWidth() / 1.5f;
         float height = weather.getBitmap().getHeight() / 1.5f;
         float left = mCenterX - width / 2f;

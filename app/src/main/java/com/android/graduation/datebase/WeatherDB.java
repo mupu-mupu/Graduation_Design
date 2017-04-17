@@ -24,7 +24,7 @@ public class WeatherDB {
     /**
      *  数据库名
      */
-    public static final String DB_Name = "mupuWeather";
+    public static final String DB_Name = "mupuWeather.db";
     //数据库版本
     public static final int VERSION = 1;
     private SQLiteDatabase db;
@@ -100,6 +100,21 @@ public class WeatherDB {
         return list;
     }
 
+    public List<City> loadAllCity(){
+        List<City> list = new ArrayList<>();
+        Cursor cursor = db.query("City",null,null,null,null,null,null);
+        if (cursor.moveToFirst()) {
+            do {
+                City city = new City();
+                city.setId(cursor.getInt((cursor.getColumnIndex("id"))));
+                city.setName(cursor.getString(cursor.getColumnIndex("city_name")));
+                city.setCode(cursor.getString(cursor.getColumnIndex("city_code")));
+                list.add(city);
+            } while (cursor.moveToNext());
+        }
+        return list;
+    }
+
     public void saveCounty(County county){
         if (county != null) {
             ContentValues values = new ContentValues();
@@ -124,6 +139,53 @@ public class WeatherDB {
             } while (cursor.moveToNext());
         }
         return list;
+    }
+
+    public List<County> searchCountyFormDB(String countyName){
+        List<County> list = new ArrayList<>();
+        Cursor cursor = db.query("County",null,"county_name = ?",new String[]{countyName},null,null,null);
+        if (cursor.moveToFirst()) {
+            do {
+                County county = new County();
+                county.setId(cursor.getInt((cursor.getColumnIndex("id"))));
+                county.setName(cursor.getString(cursor.getColumnIndex("county_name")));
+                county.setCode(cursor.getString(cursor.getColumnIndex("county_code")));
+                list.add(county);
+            } while (cursor.moveToNext());
+        }
+        return list;
+    }
+
+    public String searchCityFromDB(int cityId){
+        String cityName = "error";
+        String cityCode;
+        if (cityId < 1000){
+            cityCode = "0" + cityId;
+        }else
+            cityCode = String.valueOf(cityId);
+        Cursor cursor = db.query("City",null,"city_code = ?",new String[]{cityCode},null,null,null);
+        if (cursor.moveToFirst()) {
+            do {
+                cityName = cursor.getString(cursor.getColumnIndex("city_name"));
+            } while (cursor.moveToNext());
+        }
+        return cityName;
+    }
+
+    public String searchProvinceFromDB(int provinceId){
+        String provinceName = "error";
+        String provinceCode;
+        if (provinceId < 10){
+            provinceCode = "0" + provinceId;
+        }else
+            provinceCode = String.valueOf(provinceId);
+        Cursor cursor = db.query("Province",null,"province_code = ?",new String[]{provinceCode},null,null,null);
+        if (cursor.moveToFirst()) {
+            do {
+                provinceName = cursor.getString(cursor.getColumnIndex("province_name"));
+            } while (cursor.moveToNext());
+        }
+        return provinceName;
     }
 
 }

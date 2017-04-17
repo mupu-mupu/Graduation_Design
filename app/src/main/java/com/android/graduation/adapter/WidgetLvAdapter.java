@@ -1,5 +1,6 @@
 package com.android.graduation.adapter;
 
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,29 +8,25 @@ import android.widget.BaseAdapter;
 
 import com.android.graduation.R;
 import com.android.graduation.app.BaseApplication;
+import com.android.graduation.app.MyConstant;
+import com.android.graduation.view.ToggleView;
 import com.android.graduation.viewholder.CommonVH;
 
-/**
- * Created by asus on 2017/4/12.
- */
+public class WidgetLvAdapter extends BaseAdapter{
 
-public class EditLvAdapter extends BaseAdapter {
+    private String[] mData = {"当前位置"};
+    private boolean isLocation;
+    private SharedPreferences.Editor editor;
 
-    private String[] mData;
-    private int mLength;
-
-    public EditLvAdapter(String[] data,int length) {
-        mData = data;
-        mLength = length;
-    }
-
-    public void setLength(int length){
-        mLength = length;
+    public WidgetLvAdapter() {
+        SharedPreferences sp = BaseApplication.getSP();
+        isLocation = sp.getBoolean(MyConstant.Location,false);
+        editor = sp.edit();
     }
 
     @Override
     public int getCount() {
-        return mLength;
+        return mData.length;
     }
 
     @Override
@@ -52,7 +49,18 @@ public class EditLvAdapter extends BaseAdapter {
         }else {
             viewHolder = (CommonVH) convertView.getTag();
         }
+
         viewHolder.name.setText(mData[position]);
+        viewHolder.toggleView.setVisibility(View.VISIBLE);
+        viewHolder.toggleView.setOnStateChangeListener(new ToggleView.OnStateChangeListener() {
+            @Override
+            public void onToggleStateChanged(boolean state) {
+                editor.putBoolean(MyConstant.Location,state);
+                editor.apply();
+            }
+        });
+
         return convertView;
     }
+
 }

@@ -34,7 +34,7 @@ public class AqiVH extends RecyclerView.ViewHolder{
     private AqiData mData;
     private LvAdapter adapter;
 
-    private float[] value = {0,0,22,16,20,1.12f};
+    private String[] value = {"10","20","22","16","20","1.12"};
 
     public AqiVH(View itemView) {
         super(itemView);
@@ -52,8 +52,8 @@ public class AqiVH extends RecyclerView.ViewHolder{
             valueRange[2] = Integer.valueOf(mData.getAqi());
             mScaleView.setViewProperty(2,valueRange,mData.getQlty());
 
-            value[0] = Float.valueOf(mData.getPm10());
-            value[1] = Float.valueOf(mData.getPm25());
+            value[0] = mData.getPm10();
+            value[1] = mData.getPm25();
 
             adapter.notifyDataSetChanged();
         }
@@ -68,9 +68,9 @@ public class AqiVH extends RecyclerView.ViewHolder{
     private class LvAdapter extends BaseAdapter{
 
         private String[] name = {"PM10","PM25","NO2","SO2","O3","CO"};
-        private float[] value ;
+        private String[] value ;
 
-        public LvAdapter(float[] value) {
+        public LvAdapter(String[] value) {
             this.value = value;
         }
 
@@ -100,7 +100,7 @@ public class AqiVH extends RecyclerView.ViewHolder{
                 viewHolder = (LvViewHolder)convertView.getTag();
             }
             viewHolder.name.setText(name[position]);
-            viewHolder.value.setText(String.valueOf(value[position]));
+            viewHolder.value.setText(value[position]);
             return convertView;
         }
     }
