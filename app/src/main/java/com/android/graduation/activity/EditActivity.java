@@ -7,6 +7,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -24,7 +25,7 @@ import butterknife.ButterKnife;
 
 
 
-public class EditActivity extends AppCompatActivity implements View.OnClickListener{
+public class EditActivity extends AppCompatActivity implements View.OnClickListener {
     @BindView(R.id.lv_activity_common)
     ListView mListView;
     @BindView(R.id.tv_common_title)
@@ -38,14 +39,13 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
     ImageView mEditBtn;
 
 
-
     private EditLvAdapter mAdapter;
-    private String[] mData ;
+    private String[] mData;
 
     private static final int mRequestCode = 2;
 
     private SharedPreferences.Editor editor;
-    private  SharedPreferences sp;
+    private SharedPreferences sp;
     private int cityCount;
 
     @Override
@@ -71,7 +71,7 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
         mLayout.setVisibility(View.VISIBLE);
         mTitle.setText("管理城市");
-        mAdapter = new EditLvAdapter(mData,cityCount);
+        mAdapter = new EditLvAdapter(mData, cityCount);
 
         mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -95,17 +95,17 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
             public void onClick(DialogInterface dialog, int which) {
 
                 int num = cityCount - position - 1;
-                if (num > 0){
-                    for (int i = 1;i <= num ; i ++ ){
-                        String temp = sp.getString(MyConstant.CITY_Names[position + i],"error");
-                        int id = sp.getInt(MyConstant.CITY_IDs[position + 1],-1);
-                        editor.putString(MyConstant.CITY_Names[position],temp);
-                        editor.putInt(MyConstant.CITY_IDs[position],id);
+                if (num > 0) {
+                    for (int i = 1; i <= num; i++) {
+                        String temp = sp.getString(MyConstant.CITY_Names[position + i], "error");
+                        int id = sp.getInt(MyConstant.CITY_IDs[position + 1], -1);
+                        editor.putString(MyConstant.CITY_Names[position], temp);
+                        editor.putInt(MyConstant.CITY_IDs[position], id);
                     }
 
                 }
-                cityCount --;
-                editor.putInt(MyConstant.CITY_COUNT,cityCount);
+                cityCount--;
+                editor.putInt(MyConstant.CITY_COUNT, cityCount);
                 editor.apply();
                 getData(cityCount);
                 mAdapter.setLength(cityCount);
@@ -124,9 +124,9 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
         getData(cityCount);
     }
 
-    private void getData(int cityCount){
-        if (cityCount != -1){
-            for (int i = 0; i < cityCount; i++){
+    private void getData(int cityCount) {
+        if (cityCount != -1) {
+            for (int i = 0; i < cityCount; i++) {
                 mData[i] = sp.getString(MyConstant.CITY_Names[i], "error");
             }
         }
@@ -134,16 +134,16 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.iv_activity_add:
                 if (cityCount >= 5)
                     return;
-                Intent intent = new Intent(EditActivity.this,SearchCityActivity.class);
-                startActivityForResult(intent,mRequestCode);
+                Intent intent = new Intent(EditActivity.this, SearchCityActivity.class);
+                startActivityForResult(intent, mRequestCode);
 
                 break;
             case R.id.iv_activity_edit:
-                Intent intent1 = new Intent(EditActivity.this,WidgetAcityity.class);
+                Intent intent1 = new Intent(EditActivity.this, WidgetAcityity.class);
                 startActivity(intent1);
                 break;
         }
@@ -151,20 +151,33 @@ public class EditActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == mRequestCode && resultCode == RESULT_OK){
+        if (requestCode == mRequestCode && resultCode == RESULT_OK) {
             String cityName = data.getExtras().getString("name");
             int code = data.getExtras().getInt("code");
-            if (!cityName.isEmpty() && code != 0){
-                editor.putInt(MyConstant.CITY_COUNT,cityCount + 1);
-                editor.putString(MyConstant.CITY_Names[cityCount],cityName);
-                editor.putInt(MyConstant.CITY_IDs[cityCount],code);
+            if (!cityName.isEmpty() && code != 0) {
+                editor.putInt(MyConstant.CITY_COUNT, cityCount + 1);
+                editor.putString(MyConstant.CITY_Names[cityCount], cityName);
+                editor.putInt(MyConstant.CITY_IDs[cityCount], code);
                 editor.apply();
-                cityCount ++;
+                cityCount++;
                 getData(cityCount);
                 mAdapter.setLength(cityCount);
                 mAdapter.notifyDataSetChanged();
             }
         }
 //        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        //return super.onKeyDown(keyCode, event);
+        if (keyCode == KeyEvent.KEYCODE_BACK ) {
+            //数据是使用Intent返回
+            Intent intent = new Intent();
+            EditActivity.this.setResult(RESULT_OK, intent);
+            //关闭Activity
+            EditActivity.this.finish();
+        }
+        return false;
     }
 }

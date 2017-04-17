@@ -13,9 +13,14 @@ import java.util.List;
 public class ViewPaperAdapter extends android.support.v4.app.FragmentPagerAdapter{
 
     private final List<Fragment> mFragments = new ArrayList<>();
+    private int mFragmentNum;
 
     public ViewPaperAdapter(FragmentManager fm) {
         super(fm);
+    }
+
+    public void setFragmentNum(int fragmentNum){
+        mFragmentNum = fragmentNum;
     }
 
     @Override
@@ -25,7 +30,7 @@ public class ViewPaperAdapter extends android.support.v4.app.FragmentPagerAdapte
 
     @Override
     public int getCount() {
-        return mFragments.size();
+        return mFragmentNum;
     }
 
     public void addFragment(Fragment fragment) {
@@ -37,8 +42,7 @@ public class ViewPaperAdapter extends android.support.v4.app.FragmentPagerAdapte
     }
 
     public void setFragment(int index,Fragment target){
-        mFragments.remove(index);
-        mFragments.add(index,target);
+        mFragments.set(index,target);
     }
 
 }

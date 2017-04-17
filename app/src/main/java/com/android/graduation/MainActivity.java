@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     ImageButton mMenu;
     //district GPS time
     @BindView(R.id.tv_bar_district)
-    TextView mDistrict;
+    TextView mTitleTxt;
     @BindView(R.id.im_gps)
     ImageView mGPS;
     @BindView(R.id.tv_bar_time)
@@ -50,11 +51,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private int mCityCount;
     //城市ID数组
     private int[] mCityID = new int[5];
+    //城市名称数组
+    private String[] mCityName = new String[5];
 
     private ViewPaperAdapter mPagerAdapter;
 
     //GPS定位对象引用
     private GPSLocation mGPSLocation;
+    //共享内存
+    private SharedPreferences sp;
+
+    private static final int mRequestCode = 7;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,10 +69,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
-        initView();
-        checkCityList();
-//        initViewPager();
 
+        initActivity();
+        initView();
+        initGPSLocation();
+        checkCityList();
+
+    }
+
+    private void initActivity() {
+        sp = BaseApplication.getSP();
     }
 
     private void initView() {
@@ -90,6 +103,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(MainActivity.this,"定位失败，请查看Log信息",Toast.LENGTH_SHORT).show();
             }
         });
+
+        if (sp.getInt(MyConstant.CITY_COUNT, -1) == -1){
+            mGPSLocation.startLocation();
+        }
     }
 
 
@@ -98,12 +115,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      */
     private void initViewPager() {
         mPagerAdapter = new ViewPaperAdapter(getSupportFragmentManager());
+        mPagerAdapter.setFragmentNum(mCityCount);
         for (int i = 0; i < mCityCount; i++) {
             Bundle args = new Bundle();
             args.putInt(MyConstant.CITY_ID, mCityID[i]);
             mPagerAdapter.addFragment(CityFragment.newInstance(args));
         }
        mViewPaper.setAdapter(mPagerAdapter);
+        mViewPaper.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (mCityName!= null){
+                    mTitleTxt.setText(mCityName[position]);
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     /**
@@ -113,13 +149,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         //获取SharedPreference对象
 //        Context context = MainActivity.this;
 //        SharedPreferences sp = context.getSharedPreferences(MyConstant.CITI_TABLE, MODE_PRIVATE);
-        SharedPreferences sp = BaseApplication.getSP();
+
         mCityCount = sp.getInt(MyConstant.CITY_COUNT, -1);
 
         if (mCityCount == -1) {
             //通过Amap定位通过检索得到城市编号
            // mCityID[0] = getCityByAmap();
-            mGPSLocation.startLocation();
             mCityID[0] = mGPSLocation.getCityID();
             if (mCityID[0] == 0)
                 return;
@@ -131,14 +166,63 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 editor.putString(MyConstant.CITY_Names[i],mGPSLocation.getDistricName());
             }
             editor.apply();
+            mTitleTxt.setText(mGPSLocation.getDistricName());
         } else {
             for (int i = 0; i < mCityCount; i++) {
                 mCityID[i] = sp.getInt(MyConstant.CITY_IDs[i], -1);
+                mCityName[i] = sp.getString(MyConstant.CITY_Names[i],"error");
             }
+            mTitleTxt.setText(mCityName[0]);
             initViewPager();
         }
 
     }
+
+
+    /**
+     * 更新ViewPager
+     */
+    private void updateViewPaper() {
+        int tempCityNum = -1;
+        int[] tempCityId = new int[5];
+        String[] tempCityName = new String[5];
+
+        tempCityNum = sp.getInt(MyConstant.CITY_COUNT, -1);
+        mPagerAdapter.setFragmentNum(tempCityNum);
+        //获取Sharepreference的最新数据
+        if (tempCityNum > 0) {
+            for (int i = 0; i < tempCityNum; i++) {
+                tempCityId[i] = sp.getInt(MyConstant.CITY_IDs[i], -1);
+                tempCityName[i] = sp.getString(MyConstant.CITY_Names[i],"error");
+            }
+        }
+        //与当前数据比较，替换
+        for (int i = 0; i < tempCityNum; i++) {
+            if (mCityID[i] != tempCityId[i] && mCityCount >= tempCityNum) {
+                mCityID[i] = tempCityId[i];
+                mCityName[i] = tempCityName[i];
+                Bundle args = new Bundle();
+                args.putInt(MyConstant.CITY_ID, mCityID[i]);
+                mPagerAdapter.setFragment(i, CityFragment.newInstance(args));
+            }else if (mCityID[i] != tempCityId[i] && mCityCount < tempCityNum){
+                mCityID[i] = tempCityId[i];
+                mCityName[i] = tempCityName[i];
+                Bundle args = new Bundle();
+                args.putInt(MyConstant.CITY_ID, mCityID[i]);
+                mPagerAdapter.addFragment(CityFragment.newInstance(args));
+
+            }
+        }
+        if (tempCityNum < mCityCount) {
+            int index = mCityCount - tempCityNum;
+            for(int i = tempCityNum - 1; i > 0;i--) {
+                mPagerAdapter.removeFragment(i);
+            }
+        }
+        mCityCount = tempCityNum;
+        mPagerAdapter.notifyDataSetChanged();
+    }
+
 
 
 
@@ -152,8 +236,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.ib_bar_menu:
                 Intent intent1 = new Intent(MainActivity.this, EditActivity.class);
                 intent1.putExtra("cityCount", mCityCount);
-                startActivity(intent1);
+                startActivityForResult(intent1,mRequestCode);
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == mRequestCode && resultCode == RESULT_OK ){
+            updateViewPaper();
         }
     }
 
